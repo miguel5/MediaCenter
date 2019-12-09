@@ -27,9 +27,15 @@ JOIN Playlist p ON u.idUtilizador = p.Utilizador_idUtilizador
 WHERE u.nome = 'Cristiano Ronaldo';
 
 -- Retorna os amigos de um dado utilizador
-SELECT u.nome FROM Utilizador u
-JOIN Amigo a ON u.idUtilizador = a.idAmigo
-JOIN Utilizador uu ON a.idUtilizador = uu.idUtilizador
-WHERE uu.nome = 'Cristiano Ronaldo';
+SELECT uu.nome FROM Utilizador u
+JOIN Amigo a ON u.idUtilizador = a.idUtilizador
+JOIN Utilizador uu ON a.idAmigo = uu.idUtilizador
+WHERE u.nome = 'Cristiano Ronaldo';
 
+-- retorna os utilizadores q têm o mesmo mp3 que um dado utilizador
+
+SELECT u.nome FROM Utilizador u
+JOIN Utilizador_has_Conteudo uc ON u.idUtilizador = Utilizador_idUtilizador
+JOIN Conteudo c ON c.idConteudo = uc.Conteudo_idConteudo
+WHERE u.nome <> 'Cristiano Ronaldo' && c.titulo = 'Paranoid Android';
  
