@@ -108,7 +108,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mediaCenter`.`Amigo` (
   `idUtilizador` INT NOT NULL,
   `idAmigo` INT NOT NULL,
-  PRIMARY KEY (`idUtilizador`),
+  PRIMARY KEY (`idUtilizador`, `idAmigo`),
   CONSTRAINT `fk_Amigos_Utilizador1`
     FOREIGN KEY (`idUtilizador`)
     REFERENCES `mediaCenter`.`Utilizador` (`idUtilizador`)
