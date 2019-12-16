@@ -5,6 +5,9 @@
  */
 package client;
 
+import controllers.UIFacade;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
@@ -22,13 +25,28 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public ClientGUI() {
         initComponents();
+        this.uif = null;
+        initPopupMenu();
+         
+    }
+    
+    private void initPopupMenu(){
+        
+        ActionListener menuListener = new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                System.out.println("Item [" + event.getActionCommand() + "] was pressed");
+            }
+        };
         
         popupMenu = new JPopupMenu();
-        popupMenu.add(jmi1 = new JMenuItem("Play"));
+        JMenuItem play = new JMenuItem("Play");
+        play.addActionListener(menuListener);
+        JMenuItem addPlaylist = new JMenuItem("Add to playlist");
+        addPlaylist.addActionListener(menuListener);
+        popupMenu.add(play);
         popupMenu.add(new JPopupMenu.Separator());
-        popupMenu.add(jmi2 = new JMenuItem("Add to playlist"));
-
-
+        popupMenu.add(addPlaylist);
+        
         jList1.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent me) {
             // if right mouse button clicked (or me.isPopupTrigger())
@@ -37,10 +55,12 @@ public class ClientGUI extends javax.swing.JFrame {
                 && jList1.locationToIndex(me.getPoint())
                    == jList1.getSelectedIndex()) {
                     popupMenu.show(jList1, me.getX(), me.getY());
+                    
                     }
                 }
              }
           );
+        
     }
 
     /**
@@ -66,7 +86,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MediaCenter Client");
+        setTitle("MediaCenter Client (Convidado)");
 
         jLabel1.setText("Search: ");
 
@@ -176,9 +196,15 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         LoginUI l = new LoginUI();
+        l.setParent(this);
+        l.setFacade(uif);
         l.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
          
+    public void setFacade(UIFacade uif){
+        this.uif = uif;
+    }
+    
     
     /**
      * @param args the command line arguments
@@ -215,6 +241,7 @@ public class ClientGUI extends javax.swing.JFrame {
         });
     }
 
+    private UIFacade uif;
     private JPopupMenu popupMenu;
     private javax.swing.JMenuItem jmi1;
     private javax.swing.JMenuItem jmi2;

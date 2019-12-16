@@ -8,6 +8,7 @@ package controllers;
 import entities.DBConnection;
 import entities.InvalidEmailPasswordException;
 import entities.MediaCenter;
+import entities.Utilizador;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -40,6 +41,11 @@ public class UIFacade {
         int id = mc.login(email, password);
         if(id != 0)
             return true;
-        return false;
+        else
+            return false;
+    }
+    
+    public Utilizador getUtilzador(){
+        return this.mc.getUser();
     }
 }

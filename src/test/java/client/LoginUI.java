@@ -23,6 +23,7 @@ public class LoginUI extends javax.swing.JFrame {
      */
     public LoginUI() {
         initComponents();
+        this.uif = null;
     }
 
     /**
@@ -121,11 +122,13 @@ public class LoginUI extends javax.swing.JFrame {
         String password = String.valueOf(p);
         
         try {
-            UIFacade uif = new UIFacade();
-            if(!uif.login(email, password))
+            if(!this.uif.login(email, password))
                 this.jLabel4.setVisible(true);
-            else
+            else{
                 this.jLabel4.setVisible(false);
+                this.parent.setTitle("MediaCenter Client (" + this.uif.getUtilzador().getNome() + ")");
+                this.dispose();
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(LoginUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,7 +136,15 @@ public class LoginUI extends javax.swing.JFrame {
             Logger.getLogger(LoginUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    public void setParent(ClientGUI parent){
+        this.parent = parent;
+    }
+    
+    public void setFacade(UIFacade uif){
+        this.uif = uif;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -168,7 +179,9 @@ public class LoginUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    private ClientGUI parent;
+    private UIFacade uif;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

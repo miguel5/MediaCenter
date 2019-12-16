@@ -18,10 +18,16 @@ public class MediaCenter {
     
     private static Connection con;
     private int idLoggedIn;        // id do utilizador com sessão iniciada (convidado = 0)
+    private Utilizador user;
     
     public MediaCenter(Connection con) throws SQLException{
         this.con = con;
         this.idLoggedIn = 0;
+        this.user = new Utilizador();
+    }
+
+    public Utilizador getUser() {
+        return user;
     }
     
     
@@ -82,6 +88,13 @@ public class MediaCenter {
                 throw new InvalidEmailPasswordException();
             else{
                 id = rs.getInt("idUtilizador");
+                this.user.setId(id);
+                this.user.setNome(rs.getString("nome"));
+                this.user.setEmail(rs.getString("email"));
+                this.user.setPassword(rs.getString("password"));
+                this.user.setNome(rs.getString("nome"));
+                if(rs.getInt("admin") == 1)
+                    this.user.setAdmin(true);
             }
         }
         

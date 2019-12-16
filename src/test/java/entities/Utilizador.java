@@ -5,6 +5,7 @@
  */
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,16 @@ public class Utilizador {
         this.admin = admin;
         this.amigos = amigos;
         this.playlists = playlists;
+    }
+    
+    public Utilizador(){
+        this.nome = "";
+        this.email = "";
+        this.password = "";
+        this.id = 0;
+        this.admin = false;
+        this.amigos = new ArrayList<>();
+        this.playlists = new ArrayList<>();
     }
 
     public String getNome() {
