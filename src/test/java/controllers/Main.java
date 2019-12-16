@@ -22,7 +22,6 @@ public class Main {
             UIFacade uif = new UIFacade();
             ClientGUI gui = new ClientGUI();
             gui.setFacade(uif);
-            //ClientGUI.main(null);
             gui.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

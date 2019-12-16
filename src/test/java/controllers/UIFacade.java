@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ListModel;
 import tests.Test;
 
 /**
@@ -37,6 +38,10 @@ public class UIFacade {
         this.mc = new MediaCenter(con);
     }
     
+    public Utilizador getUtilzador(){
+        return this.mc.getUser();
+    }
+    
     public boolean login(String email, String password) throws SQLException, InvalidEmailPasswordException{
         int id = mc.login(email, password);
         if(id != 0)
@@ -45,7 +50,17 @@ public class UIFacade {
             return false;
     }
     
-    public Utilizador getUtilzador(){
-        return this.mc.getUser();
+    public void logout(){
+        this.mc.logout();
     }
+    
+    
+    public void fetchContent(String tag) throws SQLException{
+        this.mc.fetchContent(tag);
+    }
+    
+    public ListModel getSearchListModel(){
+        return this.mc.getSearchListModel();
+    }
+    
 }

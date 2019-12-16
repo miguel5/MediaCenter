@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -19,11 +22,13 @@ public class MediaCenter {
     private static Connection con;
     private int idLoggedIn;        // id do utilizador com sessão iniciada (convidado = 0)
     private Utilizador user;
+    private ArrayList<String> searchResults;
     
     public MediaCenter(Connection con) throws SQLException{
         this.con = con;
         this.idLoggedIn = 0;
         this.user = new Utilizador();
+        this.searchResults = new ArrayList<>();
     }
 
     public Utilizador getUser() {
@@ -100,5 +105,50 @@ public class MediaCenter {
         
         this.idLoggedIn = id;
         return id;
+    }
+    
+    public void logout(){
+        this.idLoggedIn = 0;
+        this.user = new Utilizador();
+    }
+    
+    // TODO: criar lista de conteudos em vez de strings
+    public void fetchContent(String tag) throws SQLException{
+        ArrayList<String> results = new ArrayList<>();
+        // procura por substrings
+        String query = "SELECT * FROM Conteudo WHERE INSTR(titulo, ?) > 0 OR "
+                + "INSTR(artista, ?) > 0 OR "
+                + "INSTR(genero, ?) > 0";
+                
+        System.out.println(query);
+        
+        PreparedStatement ps = this.con.prepareStatement(query);
+        ps.setString(1, tag);
+        ps.setString(2, tag);
+        ps.setString(3, tag);
+        
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            String titulo = rs.getString("titulo");
+            String artista = rs.getString("artista");
+            String genero = rs.getString("genero");
+            String s = titulo + "; " + artista + "; " + genero;
+            results.add(s);
+        }
+        
+        this.searchResults = results;
+    }
+    
+    
+    // Devolve um ListModel com os resultados atuais de uma procura
+    public ListModel getSearchListModel(){
+        DefaultListModel dlm = new DefaultListModel();
+        
+        this.searchResults.forEach((s) -> {
+            dlm.addElement(s);
+        });
+        
+        return dlm;
     }
 }
