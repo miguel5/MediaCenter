@@ -20,6 +20,14 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 public class PlayMedia implements Runnable {
     
+    private String path;
+    private final String dir = System.getProperty("user.dir") + "/content/";
+    
+    
+    public PlayMedia(String path){
+        this.path = path;
+    }
+    
     @Override
     public void run() {
         EmbeddedMediaPlayerComponent c = new EmbeddedMediaPlayerComponent();
@@ -38,6 +46,6 @@ public class PlayMedia implements Runnable {
         
         f.setVisible(true);
         
-        c.mediaPlayer().media().play("/home/miguel/Downloads/freicken.mp4");
+        c.mediaPlayer().media().play(this.dir + this.path);
     }
 }

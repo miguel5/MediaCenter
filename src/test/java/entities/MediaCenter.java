@@ -22,7 +22,7 @@ public class MediaCenter {
     private static Connection con;
     private int idLoggedIn;        // id do utilizador com sessão iniciada (convidado = 0)
     private Utilizador user;
-    private ArrayList<String> searchResults;
+    private ArrayList<Conteudo> searchResults;
     
     public MediaCenter(Connection con) throws SQLException{
         this.con = con;
@@ -112,15 +112,14 @@ public class MediaCenter {
         this.user = new Utilizador();
     }
     
-    // TODO: criar lista de conteudos em vez de strings
+    
     public void fetchContent(String tag) throws SQLException{
-        ArrayList<String> results = new ArrayList<>();
+        ArrayList<Conteudo> results = new ArrayList<>();
         // procura por substrings
         String query = "SELECT * FROM Conteudo WHERE INSTR(titulo, ?) > 0 OR "
                 + "INSTR(artista, ?) > 0 OR "
                 + "INSTR(genero, ?) > 0";
                 
-        System.out.println(query);
         
         PreparedStatement ps = this.con.prepareStatement(query);
         ps.setString(1, tag);
@@ -130,14 +129,21 @@ public class MediaCenter {
         ResultSet rs = ps.executeQuery();
         
         while(rs.next()){
+            int id = rs.getInt("idConteudo");
             String titulo = rs.getString("titulo");
+            String path = rs.getString("localizacao");
             String artista = rs.getString("artista");
             String genero = rs.getString("genero");
-            String s = titulo + "; " + artista + "; " + genero;
-            results.add(s);
+            int tipo = rs.getInt("tipo");
+            Conteudo c = new Conteudo(id, titulo, artista, genero, path, tipo);
+            results.add(c);
         }
         
         this.searchResults = results;
+    }
+    
+    public Conteudo searchResultsGet(int index){
+        return this.searchResults.get(index);
     }
     
     
@@ -145,10 +151,14 @@ public class MediaCenter {
     public ListModel getSearchListModel(){
         DefaultListModel dlm = new DefaultListModel();
         
-        this.searchResults.forEach((s) -> {
-            dlm.addElement(s);
+        this.searchResults.forEach((c) -> {
+            dlm.addElement(c.toString());
         });
         
         return dlm;
+    }
+    
+    public boolean isAdmin(){
+        return this.user.isAdmin();
     }
 }

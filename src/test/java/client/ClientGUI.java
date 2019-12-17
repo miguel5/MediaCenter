@@ -38,8 +38,20 @@ public class ClientGUI extends javax.swing.JFrame {
         ActionListener menuListener = new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 System.out.println("Item [" + event.getActionCommand() + "] was pressed");
-                Thread t = new Thread(new PlayMedia());
-                t.start();
+                int selectedIndex = jList1.getSelectedIndex();
+                String path = uif.searchResultsGet(selectedIndex).getPath();
+                String option = event.getActionCommand();
+                
+                switch(option){
+                    case "Play":
+                        Thread t = new Thread(new PlayMedia(path));
+                        t.start();
+                        break;
+                    case "Add to Playlist":
+                        break;
+                    default:
+                        break;
+                }
             }
         };
         
@@ -52,6 +64,7 @@ public class ClientGUI extends javax.swing.JFrame {
         popupMenu.add(new JPopupMenu.Separator());
         popupMenu.add(addPlaylist);
         
+        // Right click on list element listener
         jList1.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent me) {
             // if right mouse button clicked (or me.isPopupTrigger())
@@ -60,7 +73,6 @@ public class ClientGUI extends javax.swing.JFrame {
                 && jList1.locationToIndex(me.getPoint())
                    == jList1.getSelectedIndex()) {
                     popupMenu.show(jList1, me.getX(), me.getY());
-                    
                     }
                 }
              }
@@ -89,6 +101,8 @@ public class ClientGUI extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MediaCenter Client (Convidado)");
@@ -170,6 +184,19 @@ public class ClientGUI extends javax.swing.JFrame {
         jMenu3.setText("Friends");
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setText("Admin");
+
+        jMenuItem3.setText("Registar Utilizador");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu4);
+        jMenu4.setVisible(false);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,19 +238,30 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         LoginUI l = new LoginUI();
         l.setParent(this);
-        l.setFacade(uif);
+        l.setFacade(this.uif);
         l.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.uif.logout();
         this.setTitle("MediaCenter Client (Convidado)");
+        this.showAdminView(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        RegistarUtilizadorUI ru = new RegistarUtilizadorUI();
+        ru.setParent(this);
+        ru.setFacade(this.uif);
+        ru.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
          
     public void setFacade(UIFacade uif){
         this.uif = uif;
     }
     
+    public void showAdminView(boolean b){
+        this.jMenu4.setVisible(b);
+    }
     
     /**
      * @param args the command line arguments
@@ -262,8 +300,6 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private UIFacade uif;
     private JPopupMenu popupMenu;
-    private javax.swing.JMenuItem jmi1;
-    private javax.swing.JMenuItem jmi2;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -271,9 +307,11 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

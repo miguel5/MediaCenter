@@ -20,6 +20,7 @@ public class Conteudo {
     private String categoria;
     private String path;
     private List<Integer> owners;
+    private int tipo;                // 0 - musica ; 1 - video
     
 
     public Conteudo(int id, String titulo, String artista, String genero, String categoria, String path, List<Integer> owners) {
@@ -31,6 +32,18 @@ public class Conteudo {
         this.path = path;
         this.owners = owners;
     }
+
+    public Conteudo(int id, String titulo, String artista, String genero, String path, int tipo) {
+        this.id = id;
+        this.titulo = titulo;
+        this.artista = artista;
+        this.genero = genero;
+        this.path = path;
+        this.tipo = tipo;
+    }
+    
+    
+    
 
     public int getId() {
         return id;
@@ -98,6 +111,10 @@ public class Conteudo {
             return false;
         
         return (this.artista.equals(c.artista) && this.titulo.equals(c.titulo));
+    }
+    
+    public String toString(){
+        return (titulo + "; " + artista + "; " + genero);
     }
     
     // --------------

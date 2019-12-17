@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import entities.Conteudo;
 import entities.DBConnection;
 import entities.InvalidEmailPasswordException;
 import entities.MediaCenter;
@@ -61,6 +62,22 @@ public class UIFacade {
     
     public ListModel getSearchListModel(){
         return this.mc.getSearchListModel();
+    }
+    
+    public Conteudo searchResultsGet(int index){
+        return this.mc.searchResultsGet(index);
+    }
+    
+    public void registarUtilizador(String nome, String email, String password) throws SQLException{
+        Utilizador u = new Utilizador();
+        u.setNome(nome);
+        u.setEmail(email);
+        u.setPassword(password);
+        this.mc.registarUtilizador(u);
+    }
+    
+    public boolean isAdmin(){
+        return this.mc.isAdmin();
     }
     
 }

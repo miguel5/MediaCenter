@@ -14,6 +14,7 @@
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/entities/FriendNotFoundException.java
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/entities/Utilizador.java
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/entities/DBConnection.java
+/home/miguel/NetBeansProjects/MediaCenter/src/test/java/client/RegistarUtilizadorUI.java
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/entities/PlaylistNotFoundException.java
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/entities/Conteudo.java
 /home/miguel/NetBeansProjects/MediaCenter/src/test/java/tests/Test.java

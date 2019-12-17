@@ -127,6 +127,12 @@ public class LoginUI extends javax.swing.JFrame {
             else{
                 this.jLabel4.setVisible(false);
                 this.parent.setTitle("MediaCenter Client (" + this.uif.getUtilzador().getNome() + ")");
+                
+                if(this.uif.isAdmin())
+                    this.parent.showAdminView(true);
+                else
+                    this.parent.showAdminView(false);
+                
                 this.dispose();
             }
             
